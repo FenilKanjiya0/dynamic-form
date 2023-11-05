@@ -38,11 +38,11 @@ const Builder = ({ sentData }) => {
     e.preventDefault();
     setInputOption([...inputOption, {}]);
   };
-  const handleDeleteInput = (index) => {
-    const newArray = [...inputOption];
-    newArray.splice(index, 1);
-    setInputOption(newArray);
-  };
+  // const handleDeleteInput = (index) => {
+  //   const newArray = [...inputOption];
+  //   newArray.splice(index, 1);
+  //   setInputOption(newArray);
+  // };
 
   const handleChange = (event, index) => {
     let { name, value } = event.target;
@@ -68,7 +68,7 @@ const Builder = ({ sentData }) => {
         id="staticBackdrop"
         data-bs-backdrop="static"
         data-bs-keyboard="false"
-        tabindex="-1"
+        tabIndex="-1"
         aria-labelledby="staticBackdropLabel"
         aria-hidden="true"
       >
@@ -132,9 +132,9 @@ const Builder = ({ sentData }) => {
                 </div>
                 {inputOption.map((d, i) => {
                   return (
-                    <>
+                    <div key={i}>
                       {(selectType === "radio" || selectType === "select") && (
-                        <div className="mb-3" key={i}>
+                        <div className="mb-3" >
                           <label htmlFor="labelFields" className="form-label">
                             Options
                           </label>
@@ -147,14 +147,14 @@ const Builder = ({ sentData }) => {
                             onChange={(event) => handleChange(event, i)}
                             required
                           />
-                          {inputOption.length > 1 && (
+                          {/* {inputOption.length > 1 && (
                             <button
                               className="btn btn-danger mt-3 me-3"
                               onClick={() => handleDeleteInput(i)}
                             >
                               Delete
                             </button>
-                          )}
+                          )} */}
                           {i === inputOption.length - 1 && (
                             <button
                               className="btn btn-success mt-3"
@@ -165,7 +165,7 @@ const Builder = ({ sentData }) => {
                           )}
                         </div>
                       )}
-                    </>
+                    </div>
                   );
                 })}
 
@@ -174,7 +174,7 @@ const Builder = ({ sentData }) => {
                     type="checkbox"
                     className="form-check-input"
                     id="exampleCheck1"
-                    value={isRequire}
+                    checked={isRequire}
                     onChange={(e) => setIsRequire(e.target.checked)}
                   />
                   <label className="form-check-label">Is Require</label>
@@ -194,7 +194,7 @@ const Builder = ({ sentData }) => {
                 className="btn btn-primary"
                 data-bs-dismiss="modal"
                 onClick={handleSubmit}
-                disabled={label === "" || selectType === "" || id === ""}
+                disabled={label === "" || selectType === "" || id === "" || inputOption.options === ''} 
               >
                 Add Fields
               </button>

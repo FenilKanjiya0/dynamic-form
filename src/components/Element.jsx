@@ -13,12 +13,23 @@ const Element = ({ field }) => {
     });
   };
 
-  const handleSubmit = () => {
+  const handleCheckboxChange = (id, isChecked) => {
+    setFormData({
+      ...formData,
+      [id]: {
+        ...formData[id],
+        isChecked: isChecked,
+      },
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
     let hasErrors = false;
     const newFormErrors = {};
 
     field.forEach((field) => {
-      if (field.required && !formData[field.id]) {
+      if (field.isRequire && !formData[field.id]) {
         newFormErrors[field.id] = "This field is required.";
         hasErrors = true;
       }
@@ -28,7 +39,7 @@ const Element = ({ field }) => {
 
     if (!hasErrors) {
       // Handle form submission, e.g., display an alert or send data to the server
-      alert(JSON.stringify(formData, null, 2));
+      console.log(JSON.stringify(formData, null, 2));
     }
   };
 
@@ -36,7 +47,7 @@ const Element = ({ field }) => {
     setFormData({});
     setFormErrors({});
   };
-  console.log(field);
+  // console.log(field);
   return (
     <>
       <form>
@@ -54,53 +65,67 @@ const Element = ({ field }) => {
                   aria-describedby="emailHelp"
                   placeholder={`Enter ${field?.label}`}
                 />
+                <div style={{ color: "red" }}>{formErrors[field?.id]}</div>
               </div>
             )}
-            {field?.type === "radio" &&
-              field?.options?.map((val, index) => (
-                <div className="form-check mb-3" key={index}>
-                  <input
-                    className="form-check-input"
-                    type="radio"
-                    name="flexRadioDefault"
-                    id={field?.id}
-                    value={val?.inputOption}
-                    checked={formData[field?.id] === val?.inputOption}
-                    onChange={handleInputChange}
-                  />
-                  <label className="form-check-label" for="flexRadioDefault1">
-                    {val?.inputOption}
-                  </label>
-                </div>
-              ))}
-            {field?.type === "select" && (
-              <select
-                className="form-select mb-3"
-                aria-label="Default select example"
-                id={field?.id}
-                value={formData[field?.id] || ""}
-                onChange={handleInputChange}
-              >
-                <option selected>select an options</option>
+            {field?.type === "radio" && (
+              <>
+                <label className="form-label">{field?.label}</label>
                 {field?.options?.map((val, index) => (
-                  <option value={val?.inputOption} key={index}>
-                    {val?.inputOption}
-                  </option>
+                  <div className="form-check mb-3" key={index}>
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      name="flexRadioDefault"
+                      id={field?.id}
+                      value={val?.inputOption}
+                      checked={formData[field?.id] === val?.inputOption}
+                      onChange={handleInputChange}
+                    />
+                    <label className="form-check-label" for="flexRadioDefault1">
+                      {val?.inputOption}
+                    </label>
+                  </div>
                 ))}
-              </select>
+                <div style={{ color: "red" }}>{formErrors[field?.id]}</div>
+              </>
+            )}
+            {field?.type === "select" && (
+              <>
+                <label className="form-label">{field?.label}</label>
+                <select
+                  className="form-select mb-3"
+                  aria-label="Default select example"
+                  id={field?.id}
+                  value={formData[field?.id] || ""}
+                  onChange={handleInputChange}
+                >
+                  <option selected>select an options</option>
+                  {field?.options?.map((val, index) => (
+                    <option value={val?.inputOption} key={index}>
+                      {val?.inputOption}
+                    </option>
+                  ))}
+                </select>
+                <div style={{ color: "red" }}>{formErrors[field?.id]}</div>
+              </>
             )}
             {field?.type === "checkbox" && (
               <div className="form-check mb-3">
+                <label className="form-label">{field?.label}</label>
                 <input
                   className="form-check-input"
                   type="checkbox"
-                  checked={formData[field?.id] || false}
-                  onChange={handleInputChange}
+                  checked={formData[field?.id]?.isChecked || false}
+                  onChange={(e) =>
+                    handleCheckboxChange(field?.id, e.target.checked)
+                  }
                   id={field?.id}
                 />
                 <label className="form-check-label" for="flexCheckDefault">
                   {field?.label}
                 </label>
+                <div style={{ color: "red" }}>{formErrors[field?.id]}</div>
               </div>
             )}
           </div>

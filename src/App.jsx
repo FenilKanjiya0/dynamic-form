@@ -10,7 +10,7 @@ function App() {
     setReceivedData(data);
   };
 
-  console.log('app', receivedData)
+  // console.log('app', receivedData)
   return (
     <>
     <Builder sentData={reciveData}/>
