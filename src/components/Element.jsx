@@ -25,22 +25,23 @@ const Element = ({ field }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    let hasErrors = false;
-    const newFormErrors = {};
+    // let hasErrors = false;
+    // const newFormErrors = {};
+    console.log(field);
 
-    field.forEach((field) => {
-      if (field.isRequire && !formData[field.id]) {
-        newFormErrors[field.id] = "This field is required.";
-        hasErrors = true;
-      }
-    });
+    // field.forEach((field) => {
+    //   if (field.isRequire && !formData[field.id]) {
+    //     newFormErrors[field.id] = "This field is required.";
+    //     hasErrors = true;
+    //   }
+    // });
 
-    setFormErrors(newFormErrors);
+    // setFormErrors(newFormErrors);
 
-    if (!hasErrors) {
-      // Handle form submission, e.g., display an alert or send data to the server
-      console.log(JSON.stringify(formData, null, 2));
-    }
+    // if (!hasErrors) {
+    //   // Handle form submission, e.g., display an alert or send data to the server
+    //   console.log(JSON.stringify(formData, null, 2));
+    // }
   };
 
   const handleReset = () => {
@@ -125,6 +126,48 @@ const Element = ({ field }) => {
                 <label className="form-check-label" for="flexCheckDefault">
                   {field?.label}
                 </label>
+                <div style={{ color: "red" }}>{formErrors[field?.id]}</div>
+              </div>
+            )}
+            {field?.type === "textaria" && (
+              <div className="mb-3">
+                <label className="exampleFormControlTextarea1">
+                  {field?.label}
+                </label>
+                <textarea
+                  class="form-control"
+                  id={field?.id}
+                  rows="3"
+                  placeholder={`Enter ${field.label}`}
+                ></textarea>
+                <div style={{ color: "red" }}>{formErrors[field?.id]}</div>
+              </div>
+            )}
+            {field?.type === "heading" && (
+              <div className="form-check mb-3">
+                <h2 className="form-label" id={field?.id}>
+                  {field?.label}
+                </h2>
+                <div style={{ color: "red" }}>{formErrors[field?.id]}</div>
+              </div>
+            )}
+            {field?.type === "paragraph" && (
+              <div className="form-check mb-3">
+                <p className="form-label" id={field?.id}>
+                  {field?.label}
+                </p>
+                <div style={{ color: "red" }}>{formErrors[field?.id]}</div>
+              </div>
+            )}
+            {field?.type === "button" && (
+              <div className="form-check mb-3">
+                <button
+                  type={field?.type}
+                  class="btn btn-primary"
+                  id={field?.id}
+                >
+                  {field?.label}
+                </button>
                 <div style={{ color: "red" }}>{formErrors[field?.id]}</div>
               </div>
             )}

@@ -90,7 +90,7 @@ const Builder = ({ sentData }) => {
               ></button>
             </div>
             <form>
-            <div className="modal-body">
+              <div className="modal-body">
                 <div className="mb-3">
                   <label htmlFor="labelFields" className="form-label">
                     Label Name
@@ -132,13 +132,17 @@ const Builder = ({ sentData }) => {
                     <option value="checkbox">Checkbox</option>
                     <option value="radio">Radio</option>
                     <option value="select">Select</option>
+                    <option value="textaria">Text Aria</option>
+                    <option value="heading">H2</option>
+                    <option value="paragraph">P</option>
+                    <option value="button">Button</option>
                   </select>
                 </div>
                 {inputOption.map((d, i) => {
                   return (
                     <div key={i}>
                       {(selectType === "radio" || selectType === "select") && (
-                        <div className="mb-3" >
+                        <div className="mb-3">
                           <label htmlFor="labelFields" className="form-label">
                             Options
                           </label>
@@ -183,27 +187,31 @@ const Builder = ({ sentData }) => {
                   />
                   <label className="form-check-label">Is Require</label>
                 </div>
-            </div>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-              <button
-                type="submit"
-                className="btn btn-primary"
-                data-bs-dismiss="modal"
-                onClick={handleSubmit}
-                disabled={label === "" || selectType === "" || id === "" || inputOption === null} 
-              >
-                Add Fields
-              </button>
-            </div>
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button
+                  type="submit"
+                  className="btn btn-primary"
+                  data-bs-dismiss="modal"
+                  onClick={handleSubmit}
+                  disabled={
+                    label === "" ||
+                    selectType === "" ||
+                    id === "" ||
+                    inputOption === null
+                  }
+                >
+                  Add Fields
+                </button>
+              </div>
             </form>
-
           </div>
         </div>
       </div>
