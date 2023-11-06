@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const Element = ({ field }) => {
+const Element = ({ field, fieldData }) => {
   const [formData, setFormData] = useState({});
   const [formErrors, setFormErrors] = useState({});
 
@@ -25,32 +25,12 @@ const Element = ({ field }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // let hasErrors = false;
-    // const newFormErrors = {};
-    console.log(field);
-
-    // field.forEach((field) => {
-    //   if (field.isRequire && !formData[field.id]) {
-    //     newFormErrors[field.id] = "This field is required.";
-    //     hasErrors = true;
-    //   }
-    // });
-
-    // setFormErrors(newFormErrors);
-
-    // if (!hasErrors) {
-    //   // Handle form submission, e.g., display an alert or send data to the server
-    //   console.log(JSON.stringify(formData, null, 2));
-    // }
+    fieldData(field);
   };
 
-  const handleReset = () => {
-    setFormData({});
-    setFormErrors({});
-  };
-  // console.log(field);
   return (
     <>
+    <div className="container my-5">
       <form>
         {field?.map((field, index) => (
           <div key={index}>
@@ -177,15 +157,13 @@ const Element = ({ field }) => {
 
         {field.length >= 1 && (
           <>
-            <button className="btn btn-primary me-3" onClick={handleSubmit}>
-              Submit
-            </button>
-            <button className="btn btn-warning" onClick={handleReset}>
-              Reset
+            <button className="btn btn-primary me-3" onClick={handleSubmit} >
+              Render Form
             </button>
           </>
         )}
       </form>
+      </div>
     </>
   );
 };

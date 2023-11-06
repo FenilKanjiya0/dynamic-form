@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
+import Element from "./Element"
 
-const Builder = ({ sentData }) => {
+
+const Builder = ({fieldData}) => {
   const [label, setLabel] = useState("");
   const [id, setId] = useState("");
   const [selectType, setSelectType] = useState("");
@@ -9,9 +11,9 @@ const Builder = ({ sentData }) => {
   //   const [options, setOptions] = useState([])
   const [dataJson, setDataJson] = useState([]);
 
-  useEffect(() => {
-    sentData(dataJson);
-  }, [dataJson]);
+  // useEffect(() => {
+  //   sentData(dataJson);
+  // }, [dataJson]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -62,7 +64,7 @@ const Builder = ({ sentData }) => {
         className="btn btn-primary mt-3"
         data-bs-toggle="modal"
         data-bs-target="#staticBackdrop"
-        style={{ position: "fixed", top: "0", right: "46%" }}
+        // style={{ position: "fixed", top: "0", right: "46%" }}
       >
         Add New Fields
       </button>
@@ -185,7 +187,7 @@ const Builder = ({ sentData }) => {
                     checked={isRequire}
                     onChange={(e) => setIsRequire(e.target.checked)}
                   />
-                  <label className="form-check-label">Is Require</label>
+                  <label className="form-check-label">Is Require ?</label>
                 </div>
               </div>
               <div className="modal-footer">
@@ -215,6 +217,7 @@ const Builder = ({ sentData }) => {
           </div>
         </div>
       </div>
+      <Element field={dataJson} fieldData={fieldData}/>
     </>
   );
 };
