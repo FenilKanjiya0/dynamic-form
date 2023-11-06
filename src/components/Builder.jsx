@@ -51,6 +51,10 @@ const Builder = ({ sentData }) => {
     setInputOption(onChangeValue);
   };
 
+  // const isFormValid = () => {
+  //   return label && id && selectType && inputOption
+  // }
+
   return (
     <>
       <button
@@ -85,8 +89,8 @@ const Builder = ({ sentData }) => {
                 aria-label="Close"
               ></button>
             </div>
+            <form>
             <div className="modal-body">
-              <form>
                 <div className="mb-3">
                   <label htmlFor="labelFields" className="form-label">
                     Label Name
@@ -179,7 +183,6 @@ const Builder = ({ sentData }) => {
                   />
                   <label className="form-check-label">Is Require</label>
                 </div>
-              </form>
             </div>
             <div className="modal-footer">
               <button
@@ -194,11 +197,13 @@ const Builder = ({ sentData }) => {
                 className="btn btn-primary"
                 data-bs-dismiss="modal"
                 onClick={handleSubmit}
-                disabled={label === "" || selectType === "" || id === "" || inputOption.options === ''} 
+                disabled={label === "" || selectType === "" || id === "" || inputOption === null} 
               >
                 Add Fields
               </button>
             </div>
+            </form>
+
           </div>
         </div>
       </div>
