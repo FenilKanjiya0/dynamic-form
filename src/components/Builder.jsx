@@ -6,44 +6,77 @@ const Builder = ({ fieldData }) => {
   const [id, setId] = useState("");
   const [selectType, setSelectType] = useState("");
   const [isRequire, setIsRequire] = useState(false);
-  const [inputOption, setInputOption] = useState([{}]);
-  //   const [options, setOptions] = useState([])
+  const [inputOption, setInputOption] = useState([{ options: "" }]);
   const [dataJson, setDataJson] = useState([]);
 
-  // useEffect(() => {
-  //   sentData(dataJson);
-  // }, [dataJson]);
+  const [labelError, setLabelError] = useState("");
+  const [idError, setIdError] = useState("");
+  const [selectTypeError, setSelectTypeError] = useState("");
+  const [inputOptionErrors, setInputOptionErrors] = useState([""]);
+  const [isOpenDrawer, setOpenDrawer] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // const convertedData = Object.values(inputOption);
-    setDataJson([
-      ...dataJson,
-      {
-        label: label,
-        id: id,
-        type: selectType,
-        options: inputOption,
-        isRequire: isRequire,
-      },
-    ]);
 
-    setLabel("");
-    setId("");
-    setSelectType("");
-    setIsRequire(false);
-    setInputOption([{}]);
+    setLabelError("");
+    setIdError("");
+    setSelectTypeError("");
+    setInputOptionErrors([""]);
+
+    let isValid = true;
+
+    if (label.trim() === "") {
+      setLabelError("Label is required");
+      isValid = false;
+      setOpenDrawer(false);
+    }
+
+    if (id.trim() === "") {
+      setIdError("Enter ID is required");
+      isValid = false;
+      setOpenDrawer(false);
+    }
+
+    if (selectType === "") {
+      setSelectTypeError("Select Type is required");
+      isValid = false;
+      setOpenDrawer(false);
+    }
+
+    const inputOptionErrorsArray = inputOption.map((input) => {
+      if (selectType === "radio" || selectType === "select") {
+        return "Options are required";
+      }
+      return "";
+    });
+
+    setInputOptionErrors(inputOptionErrorsArray);
+
+    if (isValid) {
+      setDataJson([
+        ...dataJson,
+        {
+          label: label,
+          id: id,
+          type: selectType,
+          options: inputOption,
+          isRequire: isRequire,
+        },
+      ]);
+
+      setLabel("");
+      setId("");
+      setSelectType("");
+      setIsRequire(false);
+      setInputOption([{ options: "" }]);
+      setOpenDrawer(true);
+    }
   };
 
   const handleAddInput = (e) => {
     e.preventDefault();
-    setInputOption([...inputOption, {}]);
+    setInputOption([...inputOption, { options: "" }]);
   };
-  // const handleDeleteInput = (index) => {
-  //   const newArray = [...inputOption];
-  //   newArray.splice(index, 1);
-  //   setInputOption(newArray);
-  // };
 
   const handleChange = (event, index) => {
     let { name, value } = event.target;
@@ -52,10 +85,6 @@ const Builder = ({ fieldData }) => {
     setInputOption(onChangeValue);
   };
 
-  // const isFormValid = () => {
-  //   return label && id && selectType && inputOption
-  // }
-
   return (
     <>
       <button
@@ -63,7 +92,6 @@ const Builder = ({ fieldData }) => {
         className="btn btn-primary mt-3"
         data-bs-toggle="modal"
         data-bs-target="#staticBackdrop"
-        // style={{ position: "fixed", top: "0", right: "46%" }}
       >
         Add New Fields
       </button>
@@ -103,6 +131,7 @@ const Builder = ({ fieldData }) => {
                     value={label}
                     onChange={(e) => setLabel(e.target.value)}
                   />
+                  <div style={{ color: "red" }}>{labelError}</div>
                 </div>
                 <div className="mb-3">
                   <label htmlFor="labelFields" className="form-label">
@@ -115,6 +144,7 @@ const Builder = ({ fieldData }) => {
                     value={id}
                     onChange={(e) => setId(e.target.value)}
                   />
+                  <div style={{ color: "red" }}>{idError}</div>
                 </div>
                 <div className="mb-3">
                   <label htmlFor="labelFields" className="form-label">
@@ -138,6 +168,7 @@ const Builder = ({ fieldData }) => {
                     <option value="paragraph">P</option>
                     <option value="button">Button</option>
                   </select>
+                  <div style={{ color: "red" }}>{selectTypeError}</div>
                 </div>
                 {inputOption.map((d, i) => {
                   return (
@@ -156,14 +187,9 @@ const Builder = ({ fieldData }) => {
                             onChange={(event) => handleChange(event, i)}
                             required
                           />
-                          {/* {inputOption.length > 1 && (
-                            <button
-                              className="btn btn-danger mt-3 me-3"
-                              onClick={() => handleDeleteInput(i)}
-                            >
-                              Delete
-                            </button>
-                          )} */}
+                          <div style={{ color: "red" }}>
+                            {inputOptionErrors[i]}
+                          </div>
                           {i === inputOption.length - 1 && (
                             <button
                               className="btn btn-success mt-3"
@@ -200,14 +226,8 @@ const Builder = ({ fieldData }) => {
                 <button
                   type="submit"
                   className="btn btn-primary"
-                  data-bs-dismiss="modal"
+                  data-bs-dismiss={isOpenDrawer ? "modal" : ""}
                   onClick={handleSubmit}
-                  disabled={
-                    label === "" ||
-                    selectType === "" ||
-                    id === "" ||
-                    inputOption === null
-                  }
                 >
                   Add Fields
                 </button>

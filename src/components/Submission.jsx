@@ -7,10 +7,6 @@ const Submission = ({ field }) => {
   const handleInputChange = (event) => {
     const { id, value } = event.target;
     setFormData({ ...formData, [id]: value });
-    // setFormErrors({
-    //   ...formErrors,
-    //   [id]: value ? "" : "This field is required.",
-    // });
   };
 
   const handleCheckboxChange = (id, isChecked) => {
@@ -38,16 +34,9 @@ const Submission = ({ field }) => {
     setFormErrors(newFormErrors);
 
     if (!hasErrors) {
-      // Handle form submission, e.g., display an alert or send data to the server
       console.log(JSON.stringify(formData, null, 2));
     }
   };
-
-  // const handleReset = (e) => {
-  //   e.preventDefault();
-  //   setFormData({});
-  //   setFormErrors({});
-  // };
 
   return (
     <>
@@ -171,6 +160,7 @@ const Submission = ({ field }) => {
                     type={field?.type}
                     class="btn btn-primary"
                     id={field?.id}
+                    onClick={handleSubmit}
                   >
                     {field?.label}
                   </button>
@@ -179,18 +169,6 @@ const Submission = ({ field }) => {
               )}
             </div>
           ))}
-          <div style={{ color: "red" }}>{formErrors[field?.id]}</div>
-
-          {field.length >= 1 && (
-            <>
-              <button className="btn btn-primary me-3" onClick={handleSubmit}>
-                Submit
-              </button>
-              {/* <button className="btn btn-warning" onClick={handleReset}>
-                Reset
-              </button> */}
-            </>
-          )}
         </form>
       </div>
     </>

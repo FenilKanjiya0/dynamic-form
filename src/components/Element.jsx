@@ -1,35 +1,37 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Element = ({ field, fieldData, setDataJson }) => {
-  const [formData, setFormData] = useState({});
   const [formErrors, setFormErrors] = useState({});
-
-  // const renderField = [...fields];
-  // const [field, setField] = useState(fields);
-
-  // console.log(renderField);
-  // console.log(field);
-
-  // useEffect(() => {
-  //   if (fields !== field) {
-  //     setField(fields);
-  //   }
-  // }, [fields]);
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fieldData(field);
+    console.log();
+    if (
+      field?.some((field) => field.type === "text") &&
+      field?.some((field) => field.type === "heading") &&
+      field?.some((field) => field.type === "button")
+    ) {
+      fieldData(field);
+      navigate("/submissions");
+      setError("");
+    } else {
+      setError("Heading, Button and input are required");
+    }
   };
 
   const handleReset = (e) => {
     e.preventDefault();
     setDataJson([]);
-    // setField([]);
+    setError("");
   };
 
   return (
     <>
       <div className="container my-5">
+        <div style={{ color: "red" }}>{error}</div>
         <form>
           {field?.map((field, index) => (
             <div key={index}>
