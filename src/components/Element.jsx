@@ -1,27 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-const Element = ({ field, fieldData }) => {
+const Element = ({ field, fieldData, setDataJson }) => {
   const [formData, setFormData] = useState({});
   const [formErrors, setFormErrors] = useState({});
 
-  // const handleInputChange = (event) => {
-  //   const { id, value } = event.target;
-  //   setFormData({ ...formData, [id]: value });
-  //   setFormErrors({
-  //     ...formErrors,
-  //     [id]: value ? "" : "This field is required.",
-  //   });
-  // };
+  // const renderField = [...fields];
+  // const [field, setField] = useState(fields);
 
-  // const handleCheckboxChange = (id, isChecked) => {
-  //   setFormData({
-  //     ...formData,
-  //     [id]: {
-  //       ...formData[id],
-  //       isChecked: isChecked,
-  //     },
-  //   });
-  // };
+  // console.log(renderField);
+  // console.log(field);
+
+  // useEffect(() => {
+  //   if (fields !== field) {
+  //     setField(fields);
+  //   }
+  // }, [fields]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -30,7 +23,8 @@ const Element = ({ field, fieldData }) => {
 
   const handleReset = (e) => {
     e.preventDefault();
-    setFormData({});
+    setDataJson([]);
+    // setField([]);
   };
 
   return (
@@ -46,10 +40,9 @@ const Element = ({ field, fieldData }) => {
                     type={field?.type}
                     className="form-control"
                     id={field?.id}
-                    // value={formData[field?.id] || ""}
-                    // onChange={handleInputChange}
                     aria-describedby="emailHelp"
                     placeholder={`Enter ${field?.label}`}
+                    readOnly
                   />
                   <div style={{ color: "red" }}>{formErrors[field?.id]}</div>
                 </div>
@@ -65,8 +58,7 @@ const Element = ({ field, fieldData }) => {
                         name="flexRadioDefault"
                         id={field?.id}
                         value={val?.inputOption}
-                        // checked={formData[field?.id] === val?.inputOption}
-                        // onChange={handleInputChange}
+                        readOnly
                       />
                       <label
                         className="form-check-label"
@@ -86,8 +78,7 @@ const Element = ({ field, fieldData }) => {
                     className="form-select mb-3"
                     aria-label="Default select example"
                     id={field?.id}
-                    // value={formData[field?.id] || ""}
-                    // onChange={handleInputChange}
+                    readOnly
                   >
                     <option selected>select an options</option>
                     {field?.options?.map((val, index) => (
@@ -105,11 +96,8 @@ const Element = ({ field, fieldData }) => {
                   <input
                     className="form-check-input"
                     type="checkbox"
-                    // checked={formData[field?.id]?.isChecked || false}
-                    // onChange={(e) =>
-                    //   handleCheckboxChange(field?.id, e.target.checked)
-                    // }
                     id={field?.id}
+                    readOnly
                   />
                   <label className="form-check-label" for="flexCheckDefault">
                     {field?.label}
@@ -127,6 +115,7 @@ const Element = ({ field, fieldData }) => {
                     id={field?.id}
                     rows="3"
                     placeholder={`Enter ${field.label}`}
+                    readOnly
                   ></textarea>
                   <div style={{ color: "red" }}>{formErrors[field?.id]}</div>
                 </div>

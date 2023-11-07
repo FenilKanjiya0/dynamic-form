@@ -216,7 +216,11 @@ const Builder = ({ fieldData }) => {
           </div>
         </div>
       </div>
-      <Element field={dataJson} fieldData={fieldData} />
+      <Element
+        field={dataJson}
+        setDataJson={setDataJson}
+        fieldData={fieldData}
+      />
     </>
   );
 };
