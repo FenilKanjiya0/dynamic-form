@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import Element from "./Element"
+import Element from "./Element";
 
-
-const Builder = ({fieldData}) => {
+const Builder = ({ fieldData }) => {
   const [label, setLabel] = useState("");
   const [id, setId] = useState("");
   const [selectType, setSelectType] = useState("");
@@ -134,7 +133,7 @@ const Builder = ({fieldData}) => {
                     <option value="checkbox">Checkbox</option>
                     <option value="radio">Radio</option>
                     <option value="select">Select</option>
-                    <option value="textaria">Text Aria</option>
+                    <option value="textarea">Textarea</option>
                     <option value="heading">H2</option>
                     <option value="paragraph">P</option>
                     <option value="button">Button</option>
@@ -217,7 +216,7 @@ const Builder = ({fieldData}) => {
           </div>
         </div>
       </div>
-      <Element field={dataJson} fieldData={fieldData}/>
+      <Element field={dataJson} fieldData={fieldData} />
     </>
   );
 };
