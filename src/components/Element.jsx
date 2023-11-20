@@ -8,18 +8,32 @@ const Element = ({ field, fieldData, setDataJson }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log();
-    if (
-      field?.some((field) => field.type === "text") &&
-      field?.some((field) => field.type === "heading") &&
-      field?.some((field) => field.type === "button")
-    ) {
+    const hasText = field?.some((field) => field.type === "text");
+    const hasHeading = field?.some((field) => field.type === "heading");
+    const hasButton = field?.some((field) => field.type === "button");
+    
+    if (hasText && hasHeading && hasButton) {
       fieldData(field);
       navigate("/submissions");
       setError("");
     } else {
-      setError("Heading, Button and input are required");
+      let errorMessage = "";
+    
+      if (!hasText) {
+        errorMessage += "Text field is required. ";
+      }
+    
+      if (!hasHeading) {
+        errorMessage += "Heading field is required. ";
+      }
+    
+      if (!hasButton) {
+        errorMessage += "Button field is required. ";
+      }
+    
+      setError(errorMessage.trim());
     }
+    
   };
 
   const handleReset = (e) => {

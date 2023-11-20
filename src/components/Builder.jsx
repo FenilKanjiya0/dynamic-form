@@ -15,32 +15,32 @@ const Builder = ({ fieldData }) => {
   const [inputOptionErrors, setInputOptionErrors] = useState([""]);
   const [isOpenDrawer, setOpenDrawer] = useState(false);
 
-  const handleSubmit = (e) => {
+  let isValid;
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setOpenDrawer(false)
 
     setLabelError("");
     setIdError("");
     setSelectTypeError("");
     setInputOptionErrors([""]);
 
-    let isValid = true;
+    isValid = true;
 
     if (label.trim() === "") {
       setLabelError("Label is required");
       isValid = false;
-      setOpenDrawer(false);
     }
 
     if (id.trim() === "") {
       setIdError("Enter ID is required");
       isValid = false;
-      setOpenDrawer(false);
     }
 
     if (selectType === "") {
       setSelectTypeError("Select Type is required");
       isValid = false;
-      setOpenDrawer(false);
     }
 
     const inputOptionErrorsArray = inputOption.map((input) => {
@@ -73,6 +73,19 @@ const Builder = ({ fieldData }) => {
     }
   };
 
+  const handleClose = () => {
+    setLabel("");
+    setId("");
+    setSelectType("");
+    setIsRequire(false);
+    setInputOption([{ options: "" }]);
+
+    setLabelError("");
+    setIdError("");
+    setSelectTypeError("");
+    setInputOptionErrors([""]);
+  };
+
   const handleAddInput = (e) => {
     e.preventDefault();
     setInputOption([...inputOption, { options: "" }]);
@@ -83,6 +96,19 @@ const Builder = ({ fieldData }) => {
     let onChangeValue = [...inputOption];
     onChangeValue[index][name] = value;
     setInputOption(onChangeValue);
+  };
+
+  const handleLabel = (e) => {
+    setLabel(e.target.value);
+    setLabelError("");
+  };
+  const handleSelect = (e) => {
+    setSelectType(e.target.value);
+    setSelectTypeError("");
+  };
+  const handleId = (e) => {
+    setId(e.target.value);
+    setIdError("");
   };
 
   return (
@@ -97,13 +123,15 @@ const Builder = ({ fieldData }) => {
       </button>
 
       <div
-        className="modal fade"
+        className='modal fade'
+        tabIndex="-1"
+        style={{ display: isOpenDrawer ? 'block' : 'none' }}
         id="staticBackdrop"
         data-bs-backdrop="static"
         data-bs-keyboard="false"
-        tabIndex="-1"
         aria-labelledby="staticBackdropLabel"
         aria-hidden="true"
+        aria-modal = { isOpenDrawer ? 'true' : 'false' }
       >
         <div className="modal-dialog">
           <div className="modal-content">
@@ -129,7 +157,7 @@ const Builder = ({ fieldData }) => {
                     className="form-control"
                     id="labelFields"
                     value={label}
-                    onChange={(e) => setLabel(e.target.value)}
+                    onChange={(e) => handleLabel(e)}
                   />
                   <div style={{ color: "red" }}>{labelError}</div>
                 </div>
@@ -142,7 +170,7 @@ const Builder = ({ fieldData }) => {
                     className="form-control"
                     id="labelFields"
                     value={id}
-                    onChange={(e) => setId(e.target.value)}
+                    onChange={(e) => handleId(e)}
                   />
                   <div style={{ color: "red" }}>{idError}</div>
                 </div>
@@ -155,7 +183,7 @@ const Builder = ({ fieldData }) => {
                     name="options"
                     aria-label="Default select example"
                     value={selectType}
-                    onChange={(e) => setSelectType(e.target.value)}
+                    onChange={(e) => handleSelect(e)}
                     required
                   >
                     <option value="">Select any type</option>
@@ -220,6 +248,7 @@ const Builder = ({ fieldData }) => {
                   type="button"
                   className="btn btn-secondary"
                   data-bs-dismiss="modal"
+                  onClick={handleClose}
                 >
                   Close
                 </button>
